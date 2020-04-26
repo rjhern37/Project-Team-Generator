@@ -1,14 +1,23 @@
 const Employee = require ("./Employee")
+const axios = require("axios");
+
 
 class Engineer extends Employee {
     constructor(name, id, email, gitHub){
         super(name, id, email)
         this.gitHub = {
-
-            //Make an "if" statement?
-        
-            gitHubUsername: "" 
-        };
+            getUser(username) {
+              return axios
+                .get(`https://api.github.com/users/${username}`)
+                .then (response => response)
+                .catch(err => {
+                  console.log("Uh oh", err);
+                  process.exit(1);
+                })
+          
+            }
+          
+          };
 
     }
 
@@ -23,4 +32,22 @@ class Engineer extends Employee {
 }
 
 
+// module.exports = api;
+
 module.exports = Engineer;
+
+
+// const api = {
+//   getUser(username) {
+//     return axios
+//       .get(`https://api.github.com/users/${username}`)
+//       .then (response => response)
+//       .catch(err => {
+//         console.log("Uh oh", err);
+//         process.exit(1);
+//       })
+
+//   }
+
+// };
+

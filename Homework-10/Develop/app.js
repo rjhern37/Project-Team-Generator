@@ -2,9 +2,15 @@ const inquirer = require("inquirer");
 
 const fs = require("fs");
 
+//require the path package 
+const path = require("path");
+
+//require the path package 
+const Employee = require("../Develop/lib/Employee");
+
 
 // Make a set of questions for the user to fill out to populate the file/page
-const managerQuestions = [
+const questions = [
     {
 
         type: "input", 
@@ -42,22 +48,25 @@ const managerQuestions = [
 ]
 
 
+
+
+
 //Make sure to console log questions & manager objects. 
-const engQuestions = [
+// const engQuestions = [
 
-{
+// {
 
 
-}
+// }
 
-]
+// ]
 
-const internQuestions = [
+// const internQuestions = [
 
     
 
 
-]
+// ]
 
 
 
@@ -71,3 +80,27 @@ const internQuestions = [
 
 
 // }
+
+function init() {
+    inquirer.prompt(questions).then((answers) => {
+
+        //  api.getUser(answers.githubName)
+
+
+    
+        api.getUser(answers.githubName).then(function (data) {
+            let allData = { ...answers, ...data.data };
+            
+            //console.log(data.data);
+            //console.log(allData)
+
+            //let readMeMarkUp = generateMarkdown(allData);
+            //generateMarkdown(allData);
+            writeToFile("README.md", generateMarkdown(allData));
+       })
+    })
+
+
+}
+
+init();
