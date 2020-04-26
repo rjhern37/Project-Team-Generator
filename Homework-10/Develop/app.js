@@ -54,28 +54,20 @@ const engQuestions = [
 
 const internQuestions = [
 
-    {
-
-
-    }
+    
 
 
 ]
 
 
-class emp
 
-//Make a class for employees (also use a "default" like Nick showed us)
-// class employees {
 
-// };
-
-function start(){
-    inquirer.prompt(questions).then(answers) => {
+// function start(){
+//     inquirer.prompt(questions).then(answers) => {
 
 
 
-    }
+//     }
 
 
-}
+// }
