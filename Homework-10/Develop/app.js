@@ -2,36 +2,54 @@ const inquirer = require("inquirer");
 
 const fs = require("fs");
 
-//require the path package 
 const path = require("path");
 
-//require the path package 
-const Employee = require("../Develop/lib/Employee");
+const Employee = require("./lib/Employee.js");
+const Manager = require("./lib/Manager.js");
+const Engineer = require("./lib/Engineer.js");
+const Intern = require("./lib/intern.js");
 
+
+const classes = {
+    Manager,
+    Engineer,
+    Intern
+
+}
 
 // Make a set of questions for the user to fill out to populate the file/page
 const questions = [
+    
+
     {
 
         type: "input", 
-        name: "numberOfUsers",
-        message: "How many employees are on your team?"
+        name: "name",
+        message: "Please enter your name."
 
     },
 
     {
 
         type: "input", 
-        name: "teamLeader",
-        message: "Who is the project manager?"
+        name: "idNum",
+        message: "Please enter your ID number."
 
     },
 
     {
 
         type: "input", 
-        name: "numberOfUsers",
-        message: "How many employees are on your team?"
+        name: "email",
+        message: "Please enter your Email."
+
+    },
+
+    {
+
+        type: "input", 
+        name: "role",
+        message: "Which team member are you? Manager, Engineer, or Intern?"
 
     },
 
@@ -83,21 +101,25 @@ const questions = [
 
 function init() {
     inquirer.prompt(questions).then((answers) => {
+        console.log(answers)
+        const employee = new classes[answers.role]()
+        console.log(employee)
 
         //  api.getUser(answers.githubName)
-
-
     
-        api.getUser(answers.githubName).then(function (data) {
-            let allData = { ...answers, ...data.data };
+    //     api.getUser(answers.githubName).then(function (data) {
+    //         let allData = { ...answers, ...data.data };
             
-            //console.log(data.data);
-            //console.log(allData)
+    //         //console.log(data.data);
+    //         //console.log(allData)
 
-            //let readMeMarkUp = generateMarkdown(allData);
-            //generateMarkdown(allData);
-            writeToFile("README.md", generateMarkdown(allData));
-       })
+    //         //let readMeMarkUp = generateMarkdown(allData);
+    //         //generateMarkdown(allData);
+
+    //         // writeToFile("README.md", generateMarkdown(allData));
+    //    })
+
+
     })
 
 
