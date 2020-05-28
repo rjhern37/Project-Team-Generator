@@ -2,9 +2,11 @@ const inquirer = require("inquirer");
 
 const fs = require("fs");
 
+
+
+
 const path = require("path");
 
-const Employee = require("./lib/Employee.js");
 const Manager = require("./lib/Manager.js");
 const Engineer = require("./lib/Engineer.js");
 const Intern = require("./lib/intern.js");
@@ -18,30 +20,30 @@ const classes = {
 }
 
 // Make a set of questions for the user to fill out to populate the file/page
-const questions = [
+const managerQuestions = [
     
 
     {
 
         type: "input", 
-        name: "name",
-        message: "Please enter your name."
+        name: "ManagerName",
+        message: "Who is the manager of this project?"
 
     },
 
     {
 
         type: "input", 
-        name: "idNum",
-        message: "Please enter your ID number."
+        name: "ManagerId",
+        message: "Please enter the manager's ID #"
 
     },
 
     {
 
         type: "input", 
-        name: "email",
-        message: "Please enter your Email."
+        name: "managerEmail",
+        message: "Please enter the manager's Email."
 
     },
 
@@ -49,19 +51,9 @@ const questions = [
 
         type: "input", 
         name: "role",
-        message: "Which team member are you? Manager, Engineer, or Intern?"
+        message: "What is the manager's office number?"
 
     },
-
-    {
-
-        type: "input", 
-        name: "numberOfUsers",
-        message: "How many employees are on your team?"
-
-    },
-
-   
 
 ]
 
@@ -73,10 +65,10 @@ const questions = [
 
 
 function init() {
-    inquirer.prompt(questions).then((answers) => {
+    inquirer.prompt(managerQuestions).then((answers) => {
         console.log(answers)
         const employee = new classes[answers.role]()
-        console.log(employee)
+
 
 
     })
@@ -85,3 +77,5 @@ function init() {
 }
 
 init();
+
+
