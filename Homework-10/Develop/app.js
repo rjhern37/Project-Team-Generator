@@ -70,54 +70,13 @@ const questions = [
 
 
 //Make sure to console log questions & manager objects. 
-// const engQuestions = [
 
-// {
-
-
-// }
-
-// ]
-
-// const internQuestions = [
-
-    
-
-
-// ]
-
-
-
-
-// function start(){
-//     inquirer.prompt(questions).then(answers) => {
-
-
-
-//     }
-
-
-// }
 
 function init() {
     inquirer.prompt(questions).then((answers) => {
         console.log(answers)
         const employee = new classes[answers.role]()
         console.log(employee)
-
-        //  api.getUser(answers.githubName)
-    
-    //     api.getUser(answers.githubName).then(function (data) {
-    //         let allData = { ...answers, ...data.data };
-            
-    //         //console.log(data.data);
-    //         //console.log(allData)
-
-    //         //let readMeMarkUp = generateMarkdown(allData);
-    //         //generateMarkdown(allData);
-
-    //         // writeToFile("README.md", generateMarkdown(allData));
-    //    })
 
 
     })
