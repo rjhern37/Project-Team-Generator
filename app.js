@@ -1,11 +1,11 @@
 const inquirer = require("inquirer"); 
 
 const fs = require("fs");
+const path = require("path");
 
-
-
-
-// const path = require("path");
+const outputFolder = path.resolve(__dirname, "output")
+const outputPath = path.join(outputFolder, "wholeteam.html")
+const render = require("./lib/renderHTML.js")
 
 const Manager = require("./lib/Manager.js");
 const Engineer = require("./lib/Engineer.js");
@@ -162,22 +162,22 @@ function empInit() {
     inquirer.prompt(employeeQuestions).then((employeeAnswers) => {
         console.log(employeeAnswers)
         if (employeeAnswers.employeeRole === "Intern") {
-            teamMembers.push(new Intern(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.school));
-        } else if (answers.employeeRole === "Engineer") {
-            teamMembers.push(new Engineer(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.employeeGitHub))
+            teamMembers.push(new Intern(employeeAnswers.employeeName, employeeAnswers.employeeId, employeeAnswers.employeeEmail, employeeAnswers.school));
+            console.log(teamMembers);
         }
-        if (answers.newEmployee === true) {
+         else if (employeeAnswers.employeeRole === "Engineer") {
+            teamMembers.push(new Engineer(employeeAnswers.employeeName, employeeAnswers.employeeId, employeeAnswers.employeeEmail, employeeAnswers.employeeGitHub))
+        }
+        if (employeeAnswers.newEmployee === true) {
             empInit();
         } else {
-            var main = fs.readFileSync('./templates/main.html', 'utf8');
-
-           
-
-            
-
-
+            buildWholeTeam();
         }
        })
+}
+
+function buildWholeTeam (){
+    fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
 }
 
 
