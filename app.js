@@ -169,7 +169,13 @@ function empInit() {
         if (answers.newEmployee === true) {
             empInit();
         } else {
-            var main = fs.readFileSync('')
+            var main = fs.readFileSync('./templates/main.html', 'utf8');
+
+           
+
+            
+
+
         }
        })
 }
