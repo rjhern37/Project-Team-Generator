@@ -10,6 +10,7 @@ const fs = require("fs");
 const Manager = require("./lib/Manager.js");
 const Engineer = require("./lib/Engineer.js");
 const Intern = require("./lib/intern.js");
+const Employee = require("./lib/Employee.js");
 
 
 // const classes = {
@@ -148,15 +149,6 @@ const employeeQuestions = [
 
 ]
 
-
-
-
-
-//Make sure to console log questions & manager objects. 
-
-
-
-
 //Getting the employee questions started
 function empInit() {
     inquirer.prompt(employeeQuestions).then((employeeAnswers) => {
@@ -169,16 +161,58 @@ function empInit() {
         if (answers.newEmployee === true) {
             empInit();
         } else {
-            var main = fs.readFileSync('./templates/main.html', 'utf8');
+            var main = fs.readFileSync('./templates/main.html', 'utf-8');
 
-           
+            main = main.replace(/{{teamTitle}}/g, teamTitle);
 
+            var managerCard = fs.readFileSync("./templates/manager.html", "utf-8");
+
+            managerCard = managerCard.replace("{{name}}", manager.getName());
+            managerCard = managerCard.replace("{{role}}", manager.getRole());
+            managerCard = managerCard.replace("{{id}}", manager.getId());
+            managerCard = managerCard.replace("{{email}}", manager.getEmail());
+            managerCard = managerCard.replace("{{officeNumber}}", manager.getOfficeNumber());
             
 
+            var cards = managerCard;
+            for(var i = 0; i < teamMembers.length; i++){
+                var employee = teamMembers[i];
+                cards += renderEmployee(employee);
+            }
+
+            main = main.replace("{{cards}}", cards);
+
+            fs.writeFileSync("./output/team.html", main);
+
+            console.log("The team.html has been generated in the output folder");
 
         }
        })
-}
+};
+
+
+function renderEmployee(employee){
+    if (employee.getRole() === "intern"){
+        var internCard = fs.readFileSync("./templates/intern.html", "utf-8")
+
+        internCard = internCard.replace("{{name}}", employee.getName());
+        internCard = internCard.replace("{{role}}", employee.getRole());
+        internCard = internCard.replace("{{id}}", employee.getId());
+        internCard = internCard.replace("{{email}}", employee.getEmail());
+        internCard = internCard.replace("{{officeNumber}}", employee.getSchool());
+        return interCard;
+    } else if (employee.getRole() === "engineer") {
+        var engineerCard = fs.readFileSync("./templates/engineer.html", "utf-8");
+
+        engineerCard = engineerCard.replace("{{name}}", manager.getName());
+        engineerCard = engineerCard.replace("{{role}}", manager.getRole());
+        engineerCard = engineerCard.replace("{{id}}", manager.getId());
+        engineerCard = engineerCard.replace("{{email}}", manager.getEmail());
+        engineerCard = engineerCard.replace("{{officeNumber}}", manager.getGithub());
+        return engineerCard;
+    }
+
+};
 
 
 
