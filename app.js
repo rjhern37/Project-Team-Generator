@@ -3,22 +3,11 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 const path = require("path");
 
-const outputFolder = path.resolve(__dirname, "output")
-const outputPath = path.join(outputFolder, "wholeteam.html")
-const render = require("./lib/renderHTML.js")
-
 const Manager = require("./lib/Manager.js");
 const Engineer = require("./lib/Engineer.js");
 const Intern = require("./lib/intern.js");
 const Employee = require("./lib/Employee.js");
 
-
-// const classes = {
-//     Manager,
-//     Engineer,
-//     Intern
-
-// }
 
 const teamMembers = [];
 
@@ -74,7 +63,7 @@ const managerQuestions = [
 //Getting the Manager questions started
 function init() {
     inquirer.prompt(managerQuestions).then((managerAnswers) => {
-        console.log(managerAnswers)
+        // console.log(managerAnswers)
         manager = new Manager(managerAnswers.managerName, managerAnswers.managerId, managerAnswers.managerEmail, managerAnswers.managerOfficeNum )
         projectTitle = managerAnswers.projectTitle;
         console.log("Thank you, Now please answer some questions about any additional team members.");
@@ -152,10 +141,10 @@ const employeeQuestions = [
 //Getting the employee questions started
 function empInit() {
     inquirer.prompt(employeeQuestions).then((employeeAnswers) => {
-        console.log(employeeAnswers)
+        // console.log(employeeAnswers)
         if (employeeAnswers.employeeRole === "Intern") {
             teamMembers.push(new Intern(employeeAnswers.employeeName, employeeAnswers.employeeId, employeeAnswers.employeeEmail, employeeAnswers.school));
-            console.log(teamMembers);
+            // console.log(teamMembers);
         }
          else if (employeeAnswers.employeeRole === "Engineer") {
             teamMembers.push(new Engineer(employeeAnswers.employeeName, employeeAnswers.employeeId, employeeAnswers.employeeEmail, employeeAnswers.employeeGitHub))
@@ -165,7 +154,7 @@ function empInit() {
         } else {
             var main = fs.readFileSync('./templates/main.html', 'utf-8');
 
-            main = main.replace(/{{teamTitle}}/g, teamTitle);
+            main = main.replace(/{{teamTitle}}/g, projectTitle);
 
             var managerCard = fs.readFileSync("./templates/manager.html", "utf-8");
 
@@ -194,31 +183,28 @@ function empInit() {
 
 
 function renderEmployee(employee){
-    if (employee.getRole() === "intern"){
+    if (employee.getRole() === "Intern"){
         var internCard = fs.readFileSync("./templates/intern.html", "utf-8")
 
         internCard = internCard.replace("{{name}}", employee.getName());
         internCard = internCard.replace("{{role}}", employee.getRole());
         internCard = internCard.replace("{{id}}", employee.getId());
         internCard = internCard.replace("{{email}}", employee.getEmail());
-        internCard = internCard.replace("{{officeNumber}}", employee.getSchool());
-        return interCard;
-    } else if (employee.getRole() === "engineer") {
+        internCard = internCard.replace("{{school}}", employee.getSchool());
+        return internCard;
+    } else if (employee.getRole() === "Engineer") {
         var engineerCard = fs.readFileSync("./templates/engineer.html", "utf-8");
 
-        engineerCard = engineerCard.replace("{{name}}", manager.getName());
-        engineerCard = engineerCard.replace("{{role}}", manager.getRole());
-        engineerCard = engineerCard.replace("{{id}}", manager.getId());
-        engineerCard = engineerCard.replace("{{email}}", manager.getEmail());
-        engineerCard = engineerCard.replace("{{officeNumber}}", manager.getGithub());
+        engineerCard = engineerCard.replace("{{name}}", employee.getName());
+        engineerCard = engineerCard.replace("{{role}}", employee.getRole());
+        engineerCard = engineerCard.replace("{{id}}", employee.getId());
+        engineerCard = engineerCard.replace("{{email}}", employee.getEmail());
+        engineerCard = engineerCard.replace("{{github}}", employee.getGithub());
         return engineerCard;
     }
 
 };
 
-function buildWholeTeam (){
-    fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
-}
 
 
 
