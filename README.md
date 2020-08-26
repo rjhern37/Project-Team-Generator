@@ -25,7 +25,8 @@ npm i
 ```
 
 ## Usage
-N/A
+<img alt="app visual demo" src="assets/Project-teamGify.gif"/>
+<img alt="app visual demo" src="assets/Project-teamGify2.gif"/>
 
 
 ## Test
